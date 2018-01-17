@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Repository Search</string>
+    <string name="search">Type here to search</string>
+    <string name="bt_search">Search</string>
+    <string name="name">Name:</string>
+    <string name="full_name">Full Name:</string>
+    <string name="watcher_count">Watcher Count:</string>
+    <string name="commit_count">Commit Count:</string>
+</resources>
