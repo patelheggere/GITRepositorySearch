@@ -1,5 +1,6 @@
 package com.patelheggere.repositorysearch.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class SearchResultModel {
     private Long total_count;
     private boolean incomplete_results;
-    private List<List<ItemsModel>> items;
+    private ArrayList<ItemsModel> items;
 
     public Long getTotal_count() {
         return total_count;
@@ -27,11 +28,11 @@ public class SearchResultModel {
         this.incomplete_results = incomplete_results;
     }
 
-    public List<List<ItemsModel>> getItems() {
+    public List<ItemsModel> getItems() {
         return items;
     }
 
-    public void setItems(List<List<ItemsModel>> items) {
+    public void setItems(ArrayList<ItemsModel> items) {
         this.items = items;
     }
 }

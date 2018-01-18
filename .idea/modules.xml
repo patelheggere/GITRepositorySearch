@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/GITRepositorySearch.iml" filepath="$PROJECT_DIR$/GITRepositorySearch.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/reposirory.iml" filepath="$PROJECT_DIR$/reposirory.iml" />
     </modules>
   </component>
 </project>

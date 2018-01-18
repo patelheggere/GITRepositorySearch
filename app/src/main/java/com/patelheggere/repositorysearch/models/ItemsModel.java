@@ -1,5 +1,8 @@
 package com.patelheggere.repositorysearch.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Talkative Parents on 1/17/2018.
  */

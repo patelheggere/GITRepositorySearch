@@ -26,17 +26,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etsearch" />
 
+    <TextView
+        android:id="@+id/tvtotalcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Find"
+        android:shadowColor="#000"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btsearch" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvrepolist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        tools:listitem="@layout/repository_list"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btsearch">
+        app:layout_constraintTop_toBottomOf="@+id/tvtotalcount"
+        tools:listitem="@layout/repository_list">
 
     </android.support.v7.widget.RecyclerView>
 

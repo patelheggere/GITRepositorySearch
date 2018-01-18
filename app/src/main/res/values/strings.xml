@@ -6,4 +6,9 @@
     <string name="full_name">Full Name:</string>
     <string name="watcher_count">Watcher Count:</string>
     <string name="commit_count">Commit Count:</string>
+    <string name="project_link">Project Link:</string>
+    <string name="description">Description:</string>
+    <string name="contributors">Contributors:</string>
+    <string name="repo_details">Repo Details</string>
+    <string name="contributor_title">Contributor</string>
 </resources>

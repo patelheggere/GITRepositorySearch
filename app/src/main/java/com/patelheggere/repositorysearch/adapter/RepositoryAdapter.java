@@ -2,13 +2,17 @@ package com.patelheggere.repositorysearch.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.patelheggere.repositorysearch.R;
+import com.patelheggere.repositorysearch.models.ItemsModel;
 
 import java.util.List;
 
@@ -16,12 +20,12 @@ import java.util.List;
 public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.ViewHolder>
 {
     public Context mContext;
-    public List<String> fromTos;
+    public List<ItemsModel> mItems;
 
-    public RepositoryAdapter(Context mContext, List<String> fromTos)
+    public RepositoryAdapter(Context mContext, List<ItemsModel> mItems)
     {
         this.mContext = mContext;
-        this.fromTos = fromTos ;
+        this.mItems = mItems ;
 
     }
 
@@ -37,24 +41,22 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
     @Override
     public void onBindViewHolder(RepositoryAdapter.ViewHolder holder, int position)
     {
-        /*FromTo frmto = fromTos.get(position);
-
-        if(frmto!=null)
+        ItemsModel item = mItems.get(position);
+        if(item!=null)
         {
-           if(frmto.getFrom().getLocation().getName()!=null)
-            holder.mDptName.setText(frmto.getFrom().getLocation().getName());
-           if(frmto.getFrom().getDeparture()!=null)
-               holder.mTimePlat.setText(frmto.getFrom().getDeparture());
-           if(frmto.getFrom().getPlatform()!=null)
-               holder.mTimePlat.setText(holder.mTimePlat.getText()+"-Platform:"+frmto.getFrom().getPlatform());
-
-            if(frmto.getTo().getLocation().getName()!=null)
-                holder.mArrivalName.setText(frmto.getTo().getLocation().getName());
-            if(frmto.getTo().getArrival()!=null)
-                holder.mArrivalTime.setText(frmto.getTo().getArrival());
-            if(frmto.getTo().getPlatform()!=null)
-                holder.mArrivalTime.setText(holder.mArrivalTime.getText()+"-Platform:"+frmto.getTo().getPlatform());
-        }*/
+           if(item.getName()!=null)
+               holder.mTvName.setText(item.getName());
+           if(item.getFull_name()!=null)
+               holder.mTvFullName.setText(item.getFull_name());
+           if(item.getWatchers_count()!=0)
+               holder.mTvWatcherCount.setText(String.valueOf(item.getWatchers_count()));
+           if(item.getOwner().getAvatar_url()!=null) {
+               Log.d("Bind", "onBindViewHolder: "+item.getOwner().getAvatar_url());
+               Glide.with(mContext).load(item.getOwner().getAvatar_url())
+                       .thumbnail(0.5f)
+                       .into(holder.mAvatarImage);
+           }
+        }
 
     }
 
@@ -65,7 +67,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return fromTos.size();
+        return mItems.size();
     }
 
 
@@ -83,6 +85,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
             mTvFullName = v.findViewById(R.id.tvfullname2);
             mTvWatcherCount = v.findViewById(R.id.tvwatchercount2);
             mTvCommitCount = v.findViewById(R.id.tvcommitcount2);
+            mAvatarImage = v.findViewById(R.id.ivavatar);
         }
     }
 }
