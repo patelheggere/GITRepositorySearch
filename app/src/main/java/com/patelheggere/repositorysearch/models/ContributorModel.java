@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Talkative Parents on 1/17/2018.
+ * Created by Talkative Parents on 1/19/2018.
  */
 
-public class OwnerModel implements Parcelable {
+public class ContributorModel implements Parcelable{
     private String login;
     private Long id;
     private String avatar_url;
@@ -25,12 +25,11 @@ public class OwnerModel implements Parcelable {
     private String received_events_url;
     private String type;
     private boolean site_admin;
+    private Long contributions;
 
-    public OwnerModel(){
+    public ContributorModel(){}
 
-    }
-
-    protected OwnerModel(Parcel in) {
+    protected ContributorModel(Parcel in) {
         login = in.readString();
         if (in.readByte() == 0) {
             id = null;
@@ -52,17 +51,22 @@ public class OwnerModel implements Parcelable {
         received_events_url = in.readString();
         type = in.readString();
         site_admin = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            contributions = null;
+        } else {
+            contributions = in.readLong();
+        }
     }
 
-    public static final Creator<OwnerModel> CREATOR = new Creator<OwnerModel>() {
+    public static final Creator<ContributorModel> CREATOR = new Creator<ContributorModel>() {
         @Override
-        public OwnerModel createFromParcel(Parcel in) {
-            return new OwnerModel(in);
+        public ContributorModel createFromParcel(Parcel in) {
+            return new ContributorModel(in);
         }
 
         @Override
-        public OwnerModel[] newArray(int size) {
-            return new OwnerModel[size];
+        public ContributorModel[] newArray(int size) {
+            return new ContributorModel[size];
         }
     };
 
@@ -202,6 +206,14 @@ public class OwnerModel implements Parcelable {
         this.site_admin = site_admin;
     }
 
+    public Long getContributions() {
+        return contributions;
+    }
+
+    public void setContributions(Long contributions) {
+        this.contributions = contributions;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -231,5 +243,11 @@ public class OwnerModel implements Parcelable {
         dest.writeString(received_events_url);
         dest.writeString(type);
         dest.writeByte((byte) (site_admin ? 1 : 0));
+        if (contributions == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(contributions);
+        }
     }
 }

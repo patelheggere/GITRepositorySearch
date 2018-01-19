@@ -1,6 +1,7 @@
 package com.patelheggere.repositorysearch.activity;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEtSearch;
     private TextView mTvTotalCount;
     private Gson mGson;
-    private ItemsModel[] itemsModels;
+    private ProgressBar mProgressBar;
     private android.support.v7.app.ActionBar mActionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mActionBar = getSupportActionBar();
         if(mActionBar!=null)
             mActionBar.setTitle(getString(R.string.app_name));
+        mProgressBar = findViewById(R.id.progressBar);
         mEtSearch = findViewById(R.id.etsearch);
         mTvTotalCount = findViewById(R.id.tvtotalcount);
         mRepoListRecyclerView = findViewById(R.id.rvrepolist);
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private void searchRepositories()
     {
         mGson = new Gson();
+        mProgressBar.setVisibility(View.VISIBLE);
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, AppConstants.SEARCH_URL + mEtSearch.getText().toString(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -118,9 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         JSONObject jsonObject1 = jsonObject.getJSONObject("owner");
                         String str = jsonObject.toString();
-                        System.out.println("Str:"+str);
                         String str2 = str.replace(str.substring(str.indexOf(":{")+1,str.indexOf("}")+2),"{\"\"}");
-                        System.out.println("Str2:"+str2);
                         ownerModel = mGson.fromJson(jsonObject1.toString(), OwnerModel.class);
                         itemsModel.setId(jsonObject.getLong("id"));
                         itemsModel.setName(jsonObject.getString("name"));
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         itemsModel.setWatchers_count(jsonObject.getLong("watchers_count"));
                         itemsModel.setDescription(jsonObject.getString("description"));
                         itemsModel.setContributors_url(jsonObject.getString("contributors_url"));
-                        itemsModel.setContents_url(jsonObject.getString("contents_url"));
+                        itemsModel.setContents_url(jsonObject.getString("html_url"));
                         itemsModel.setOwner(ownerModel);
                         mRepoList.add(itemsModel);
                         //itemsModel = mGson.fromJson(str2, ItemsModel.class);
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 mRepositoryAdapter.notifyDataSetChanged();
+                mProgressBar.setVisibility(View.INVISIBLE);
 
 
                 //Toast.makeText(MainActivity.this, "Total Count:"+searchResultModel.getTotal_count(), Toast.LENGTH_SHORT).show();
@@ -148,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.somethin_wrong), Snackbar.LENGTH_LONG ).show();
                 Log.d(TAG, "onErrorResponse: "+error.toString());
             }
         });
@@ -159,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent detailsIntent = new Intent(this, RepoDetailsActivity.class);
         detailsIntent.putExtra("details", itemsModel);
+        detailsIntent.putExtra("owner", itemsModel.getOwner());
         startActivity(detailsIntent);
     }
 }
