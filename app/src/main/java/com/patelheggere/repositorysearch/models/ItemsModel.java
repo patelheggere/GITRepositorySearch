@@ -1,5 +1,8 @@
 package com.patelheggere.repositorysearch.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Talkative Parents on 1/17/2018.
  */
 
-public class ItemsModel {
+public class ItemsModel implements Parcelable {
     private Long id;
     private String name;
     private String full_name;
@@ -81,6 +84,115 @@ public class ItemsModel {
     private double score;
 
     public ItemsModel(){}
+
+    protected ItemsModel(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        name = in.readString();
+        full_name = in.readString();
+        mprivate = in.readByte() != 0;
+        html_url = in.readString();
+        description = in.readString();
+        fork = in.readByte() != 0;
+        url = in.readString();
+        forks_url = in.readString();
+        keys_url = in.readString();
+        collaborators_url = in.readString();
+        teams_url = in.readString();
+        hooks_url = in.readString();
+        issue_events_url = in.readString();
+        events_url = in.readString();
+        assignees_url = in.readString();
+        branches_url = in.readString();
+        tags_url = in.readString();
+        blobs_url = in.readString();
+        git_tags_url = in.readString();
+        git_refs_url = in.readString();
+        trees_url = in.readString();
+        statuses_url = in.readString();
+        languages_url = in.readString();
+        stargazers_url = in.readString();
+        contributors_url = in.readString();
+        subscribers_url = in.readString();
+        commits_url = in.readString();
+        git_commits_url = in.readString();
+        comments_url = in.readString();
+        issue_comment_url = in.readString();
+        contents_url = in.readString();
+        compare_url = in.readString();
+        merges_url = in.readString();
+        archive_url = in.readString();
+        downloads_url = in.readString();
+        issues_url = in.readString();
+        pulls_url = in.readString();
+        milestones_url = in.readString();
+        notifications_url = in.readString();
+        labels_url = in.readString();
+        releases_url = in.readString();
+        deployments_url = in.readString();
+        created_at = in.readString();
+        updated_at = in.readString();
+        pushed_at = in.readString();
+        git_url = in.readString();
+        ssh_url = in.readString();
+        clone_url = in.readString();
+        svn_url = in.readString();
+        homepage = in.readString();
+        size = in.readLong();
+        stargazers_count = in.readLong();
+        watchers_count = in.readLong();
+        language = in.readString();
+        has_issues = in.readByte() != 0;
+        has_projects = in.readByte() != 0;
+        has_downloads = in.readByte() != 0;
+        has_wiki = in.readByte() != 0;
+        has_pages = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            forks_count = null;
+        } else {
+            forks_count = in.readLong();
+        }
+        mirror_url = in.readString();
+        archived = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            open_issues_count = null;
+        } else {
+            open_issues_count = in.readLong();
+        }
+        license = in.readString();
+        if (in.readByte() == 0) {
+            forks = null;
+        } else {
+            forks = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            open_issues = null;
+        } else {
+            open_issues = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            watchers = null;
+        } else {
+            watchers = in.readLong();
+        }
+        default_branch = in.readString();
+        score = in.readDouble();
+    }
+
+    public static final Creator<ItemsModel> CREATOR = new Creator<ItemsModel>() {
+        @Override
+        public ItemsModel createFromParcel(Parcel in) {
+            return new ItemsModel(in);
+        }
+
+        @Override
+        public ItemsModel[] newArray(int size) {
+            return new ItemsModel[size];
+        }
+    };
 
     public Long getId() {
         return id;
@@ -648,5 +760,114 @@ public class ItemsModel {
 
     public void setOwner(OwnerModel owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(id);
+        }
+        parcel.writeString(name);
+        parcel.writeString(full_name);
+        parcel.writeByte((byte) (mprivate ? 1 : 0));
+        parcel.writeString(html_url);
+        parcel.writeString(description);
+        parcel.writeByte((byte) (fork ? 1 : 0));
+        parcel.writeString(url);
+        parcel.writeString(forks_url);
+        parcel.writeString(keys_url);
+        parcel.writeString(collaborators_url);
+        parcel.writeString(teams_url);
+        parcel.writeString(hooks_url);
+        parcel.writeString(issue_events_url);
+        parcel.writeString(events_url);
+        parcel.writeString(assignees_url);
+        parcel.writeString(branches_url);
+        parcel.writeString(tags_url);
+        parcel.writeString(blobs_url);
+        parcel.writeString(git_tags_url);
+        parcel.writeString(git_refs_url);
+        parcel.writeString(trees_url);
+        parcel.writeString(statuses_url);
+        parcel.writeString(languages_url);
+        parcel.writeString(stargazers_url);
+        parcel.writeString(contributors_url);
+        parcel.writeString(subscribers_url);
+        parcel.writeString(commits_url);
+        parcel.writeString(git_commits_url);
+        parcel.writeString(comments_url);
+        parcel.writeString(issue_comment_url);
+        parcel.writeString(contents_url);
+        parcel.writeString(compare_url);
+        parcel.writeString(merges_url);
+        parcel.writeString(archive_url);
+        parcel.writeString(downloads_url);
+        parcel.writeString(issues_url);
+        parcel.writeString(pulls_url);
+        parcel.writeString(milestones_url);
+        parcel.writeString(notifications_url);
+        parcel.writeString(labels_url);
+        parcel.writeString(releases_url);
+        parcel.writeString(deployments_url);
+        parcel.writeString(created_at);
+        parcel.writeString(updated_at);
+        parcel.writeString(pushed_at);
+        parcel.writeString(git_url);
+        parcel.writeString(ssh_url);
+        parcel.writeString(clone_url);
+        parcel.writeString(svn_url);
+        parcel.writeString(homepage);
+        parcel.writeLong(size);
+        parcel.writeLong(stargazers_count);
+        parcel.writeLong(watchers_count);
+        parcel.writeString(language);
+        parcel.writeByte((byte) (has_issues ? 1 : 0));
+        parcel.writeByte((byte) (has_projects ? 1 : 0));
+        parcel.writeByte((byte) (has_downloads ? 1 : 0));
+        parcel.writeByte((byte) (has_wiki ? 1 : 0));
+        parcel.writeByte((byte) (has_pages ? 1 : 0));
+        if (forks_count == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(forks_count);
+        }
+        parcel.writeString(mirror_url);
+        parcel.writeByte((byte) (archived ? 1 : 0));
+        if (open_issues_count == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(open_issues_count);
+        }
+        parcel.writeString(license);
+        if (forks == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(forks);
+        }
+        if (open_issues == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(open_issues);
+        }
+        if (watchers == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(watchers);
+        }
+        parcel.writeString(default_branch);
+        parcel.writeDouble(score);
     }
 }
