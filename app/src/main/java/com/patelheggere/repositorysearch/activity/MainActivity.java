@@ -1,5 +1,6 @@
 package com.patelheggere.repositorysearch.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.patelheggere.repositorysearch.models.ItemsModel;
 import com.patelheggere.repositorysearch.models.OwnerModel;
 import com.patelheggere.repositorysearch.singletons.MySingletonClass;
 import com.patelheggere.repositorysearch.utils.AppConstants;
+import com.patelheggere.repositorysearch.utils.RecyclerItemClickListener;
 
 
 import org.json.JSONArray;
@@ -64,6 +66,17 @@ public class MainActivity extends AppCompatActivity {
         mRepositoryAdapter = new RepositoryAdapter(this,mRepoList);
         mRepoListRecyclerView.setAdapter(mRepositoryAdapter);
         mRepoListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRepoListRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, mRepoListRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                gotoDetails(mRepoList.get(position));
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
     }
     private void initializeSearchButton()
     {
@@ -116,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         itemsModel.setWatchers_count(jsonObject.getLong("watchers_count"));
                         itemsModel.setDescription(jsonObject.getString("description"));
                         itemsModel.setContributors_url(jsonObject.getString("contributors_url"));
+                        itemsModel.setContents_url(jsonObject.getString("contents_url"));
                         itemsModel.setOwner(ownerModel);
                         mRepoList.add(itemsModel);
                         //itemsModel = mGson.fromJson(str2, ItemsModel.class);
@@ -139,5 +153,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         MySingletonClass.getInstance().addToRequestQueue(mJsonObjectRequest);
+    }
+
+    private void gotoDetails(ItemsModel itemsModel)
+    {
+        Intent detailsIntent = new Intent(this, RepoDetailsActivity.class);
+        detailsIntent.putExtra("details", itemsModel);
+        startActivity(detailsIntent);
     }
 }
