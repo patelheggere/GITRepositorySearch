@@ -38,25 +38,25 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private List<ItemsModel> mRepoList;
-    private RecyclerView mRepoListRecyclerView;
-    private RepositoryAdapter mRepositoryAdapter;
-    private Button mBtnSearch;
-    private EditText mEtSearch;
-    private TextView mTvTotalCount;
-    private Gson mGson;
-    private ProgressBar mProgressBar;
+    private List<ItemsModel> mRepoList;  //Repository List
+    private RecyclerView mRepoListRecyclerView; //Repository Recycler view
+    private RepositoryAdapter mRepositoryAdapter; // Repository Adapter
+    private Button mBtnSearch; // Search Button
+    private EditText mEtSearch; // Edit text for search
+    private TextView mTvTotalCount;  // Total Repo Count
+    private Gson mGson; // Gson object for Parsing
+    private ProgressBar mProgressBar; // progressbar
     private android.support.v7.app.ActionBar mActionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initialize();
-        initializeSearchButton();
+        initializeComponents();  //calling initializing UI components
+        initializeSearchButton(); // calling initailzing button
     }
 
-
-    private void initialize()
+//initializing UI components
+    private void initializeComponents()
     {
         mRepoList = new ArrayList<>();
         mActionBar = getSupportActionBar();
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
     }
+
+    //Method for initializing Search Button
     private void initializeSearchButton()
     {
         mBtnSearch = findViewById(R.id.btsearch);
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Method to Search Repositories
     private void searchRepositories()
     {
         mGson = new Gson();

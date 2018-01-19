@@ -30,7 +30,6 @@ ext{
     buildToolsVersion = "26.0.2"
     minSdkVersion = 19
     targetSdkVersion = 26
-
     // You can also use this to specify versions for dependencies. Having consistent
     // versions between modules can avoid behavior conflicts.
     supportLibVersion = "26.1.0"
