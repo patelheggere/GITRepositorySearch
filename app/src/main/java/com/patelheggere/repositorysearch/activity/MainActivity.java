@@ -1,6 +1,7 @@
 package com.patelheggere.repositorysearch.activity;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +38,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private List<ItemsModel> mRepoList;
-    private RecyclerView mRepoListRecyclerView;
-    private RepositoryAdapter mRepositoryAdapter;
-    private Button mBtnSearch;
-    private EditText mEtSearch;
-    private TextView mTvTotalCount;
-    private Gson mGson;
+
+    private List<ItemsModel> mRepoList;  //Repository List
+    private RecyclerView mRepoListRecyclerView; //Repository Recycler view
+    private RepositoryAdapter mRepositoryAdapter; // Repository Adapter
+    private Button mBtnSearch; // Search Button
+    private EditText mEtSearch; // Edit text for search
+    private TextView mTvTotalCount;  // Total Repo Count
+    private Gson mGson; // Gson object for Parsing
+    private ProgressBar mProgressBar; // progressbar
     private android.support.v7.app.ActionBar mActionBar;
 
 
@@ -50,17 +54,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initialize();
-        initializeSearchButton();
+        initializeComponents();  //calling initializing UI components
+        initializeSearchButton(); // calling initailzing button
     }
 
-
-    private void initialize()
+//initializing UI components
+    private void initializeComponents()
     {
         mRepoList = new ArrayList<>();
         mActionBar = getSupportActionBar();
         if(mActionBar!=null)
             mActionBar.setTitle(getString(R.string.app_name));
+        mProgressBar = findViewById(R.id.progressBar);
         mEtSearch = findViewById(R.id.etsearch);
         mTvTotalCount = findViewById(R.id.tvtotalcount);
         mRepoListRecyclerView = findViewById(R.id.rvrepolist);
@@ -79,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
     }
+
+    //Method for initializing Search Button
     private void initializeSearchButton()
     {
         mBtnSearch = findViewById(R.id.btsearch);
@@ -90,9 +97,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Method to Search Repositories
     private void searchRepositories()
     {
         mGson = new Gson();
+        mProgressBar.setVisibility(View.VISIBLE);
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, AppConstants.SEARCH_URL + mEtSearch.getText().toString(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -119,9 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         JSONObject jsonObject1 = jsonObject.getJSONObject("owner");
                         String str = jsonObject.toString();
-                        System.out.println("Str:"+str);
                         String str2 = str.replace(str.substring(str.indexOf(":{")+1,str.indexOf("}")+2),"{\"\"}");
-                        System.out.println("Str2:"+str2);
                         ownerModel = mGson.fromJson(jsonObject1.toString(), OwnerModel.class);
                         itemsModel.setId(jsonObject.getLong("id"));
                         itemsModel.setName(jsonObject.getString("name"));
@@ -130,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                         itemsModel.setWatchers_count(jsonObject.getLong("watchers_count"));
                         itemsModel.setDescription(jsonObject.getString("description"));
                         itemsModel.setContributors_url(jsonObject.getString("contributors_url"));
-                        itemsModel.setContents_url(jsonObject.getString("contents_url"));
+                        itemsModel.setContents_url(jsonObject.getString("html_url"));
                         itemsModel.setOwner(ownerModel);
                         mRepoList.add(itemsModel);
                     } catch (JSONException e) {
@@ -138,11 +145,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 mRepositoryAdapter.notifyDataSetChanged();
+                mProgressBar.setVisibility(View.INVISIBLE);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.somethin_wrong), Snackbar.LENGTH_LONG ).show();
                 Log.d(TAG, "onErrorResponse: "+error.toString());
             }
         });
@@ -154,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent detailsIntent = new Intent(this, RepoDetailsActivity.class);
         detailsIntent.putExtra("details", itemsModel);
+        detailsIntent.putExtra("owner", itemsModel.getOwner());
         startActivity(detailsIntent);
     }
 }

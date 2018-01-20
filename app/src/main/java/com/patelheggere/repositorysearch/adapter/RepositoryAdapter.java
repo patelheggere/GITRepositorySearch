@@ -52,7 +52,8 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
                holder.mTvWatcherCount.setText(String.valueOf(item.getWatchers_count()));
            if(item.getOwner().getAvatar_url()!=null) {
                Log.d("Bind", "onBindViewHolder: "+item.getOwner().getAvatar_url());
-               Glide.with(mContext).load(item.getOwner().getAvatar_url())
+               Glide.with(mContext)
+                       .load(item.getOwner().getAvatar_url())
                        .thumbnail(0.5f)
                        .into(holder.mAvatarImage);
            }
