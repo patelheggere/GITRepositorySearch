@@ -12,4 +12,6 @@
     <string name="repo_details">Repo Details</string>
     <string name="contributor_title">Contributor</string>
     <string name="somethin_wrong">Something went wrong, Please try again</string>
+    <string name="found">Found </string>
+    <string name="repo">Repositories by </string>
 </resources>

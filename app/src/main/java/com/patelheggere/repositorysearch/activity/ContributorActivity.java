@@ -106,7 +106,7 @@ public class ContributorActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                mTvRepoList.setText("Found "+String.valueOf(response.length())+" Repositories by "+ contributor.getLogin());
+                mTvRepoList.setText(getString(R.string.found)+String.valueOf(response.length())+" "+getString(R.string.repo)+ contributor.getLogin());
                 mContRepoAdapter.notifyDataSetChanged();
                 mProgressBar.setVisibility(View.INVISIBLE);
 
