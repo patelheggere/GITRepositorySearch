@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEtSearch;
     private TextView mTvTotalCount;
     private Gson mGson;
-    private ItemsModel[] itemsModels;
     private android.support.v7.app.ActionBar mActionBar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,18 +133,12 @@ public class MainActivity extends AppCompatActivity {
                         itemsModel.setContents_url(jsonObject.getString("contents_url"));
                         itemsModel.setOwner(ownerModel);
                         mRepoList.add(itemsModel);
-                        //itemsModel = mGson.fromJson(str2, ItemsModel.class);
-                        //System.out.println("object:"+itemsModel.getGit_refs_url().toString()+"\n oener:"+jsonObject1.toString());
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 mRepositoryAdapter.notifyDataSetChanged();
 
-
-                //Toast.makeText(MainActivity.this, "Total Count:"+searchResultModel.getTotal_count(), Toast.LENGTH_SHORT).show();
-                //Log.d(TAG, "onResponse: Total Count:"+searchResultModel.getTotal_count());
             }
         }, new Response.ErrorListener() {
             @Override
