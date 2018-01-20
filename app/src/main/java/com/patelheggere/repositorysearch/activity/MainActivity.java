@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         initializeSearchButton(); // calling initailzing button
     }
 
-//initializing UI components
+    //initializing UI components
     private void initializeComponents()
     {
         mRepoList = new ArrayList<>();
@@ -157,9 +155,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MySingletonClass.getInstance().addToRequestQueue(mJsonObjectRequest);
+        MySingletonClass.getInstance().addToRequestQueue(mJsonObjectRequest); //adding into requeste to make call to network
     }
 
+    //calling Repodetails activity
     private void gotoDetails(ItemsModel itemsModel)
     {
         Intent detailsIntent = new Intent(this, RepoDetailsActivity.class);
@@ -167,4 +166,5 @@ public class MainActivity extends AppCompatActivity {
         detailsIntent.putExtra("owner", itemsModel.getOwner());
         startActivity(detailsIntent);
     }
+
 }

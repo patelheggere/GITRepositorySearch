@@ -3,9 +3,6 @@ package com.patelheggere.repositorysearch.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Talkative Parents on 1/17/2018.
  */
